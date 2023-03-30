@@ -1,0 +1,23 @@
+name: lint
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'yarn'
+
+      - name: yarn install
+        run: |
+          yarn --frozen-lockfile
+
+      - name: prettier
+        run: |
+          yarn prettier --check .
+
+      - name: lint
+        run: |
+          yarn nx affected --target=lint
