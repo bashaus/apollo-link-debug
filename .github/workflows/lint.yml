@@ -23,4 +23,4 @@ jobs:
         run: yarn prettier --check .
 
       - name: lint
-        run: yarn nx affected --target=lint
+        run: yarn nx run-many --target=lint
