@@ -1,0 +1,28 @@
+name: commitlint
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'yarn'
+
+      - name: yarn install
+        run: yarn --frozen-lockfile
+
+      - name: commitlint run
+        run: npx commitlint --from HEAD~${{ github.event.pull_request.commits }} --to HEAD

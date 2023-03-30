@@ -1,4 +1,4 @@
-name: test
+name: Test
 
 jobs:
   test:
@@ -11,14 +11,10 @@ jobs:
           cache: 'yarn'
 
       - name: yarn install
-        run: |
-          yarn --frozen-lockfile
+        run: yarn --frozen-lockfile
 
       - name: test
-        run: |
-          yarn test --coverage
+        run: yarn test --coverage
 
       - name: codecov
         uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}

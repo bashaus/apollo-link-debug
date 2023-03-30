@@ -1,4 +1,4 @@
-name: lint
+name: Lint
 
 jobs:
   lint:
@@ -11,13 +11,10 @@ jobs:
           cache: 'yarn'
 
       - name: yarn install
-        run: |
-          yarn --frozen-lockfile
+        run: yarn --frozen-lockfile
 
       - name: prettier
-        run: |
-          yarn prettier --check .
+        run: yarn prettier --check .
 
       - name: lint
-        run: |
-          yarn nx affected --target=lint
+        run: yarn nx affected --target=lint
