@@ -16,8 +16,8 @@ jobs:
           node-version: '18.x'
           cache: 'yarn'
 
-      - name: yarn install
-        run: yarn --frozen-lockfile
+      - name: yarn
+        run: yarn install --frozen-lockfile
 
       - name: prettier
         run: yarn prettier --check .

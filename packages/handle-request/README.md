@@ -13,7 +13,7 @@ yarn add @apollo-link-debug/handle-request
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { createRequestLink } from '@apollo-link-debug/handle-request';
 
 const client = new ApolloClient({

@@ -29,7 +29,7 @@ yarn add \
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { createRequestLink } from '@apollo-link-debug/handle-request';
 import { createErrorsLink } from '@apollo-link-debug/handle-errors';
 

@@ -13,7 +13,7 @@ yarn add @apollo-link-debug/handle-aws-x-ray
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { createAwsXRayLink } from '@apollo-link-debug/handle-aws-x-ray';
 
 const client = new ApolloClient({

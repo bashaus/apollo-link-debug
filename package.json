@@ -1,12 +1,13 @@
 {
   "name": "apollo-link-debug",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "license": "MIT",
   "scripts": {
     "build": "nx run-many --target=build",
     "lint": "nx run-many --target=lint",
     "prepare": "husky install",
+    "prepublishOnly": "exit 1",
     "test": "jest"
   },
   "dependencies": {
