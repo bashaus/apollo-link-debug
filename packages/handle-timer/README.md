@@ -13,7 +13,7 @@ yarn add @apollo-link-debug/handle-timer
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { createTimerLink } from '@apollo-link-debug/handle-timer';
 
 const client = new ApolloClient({

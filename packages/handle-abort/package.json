@@ -1,5 +1,8 @@
 {
   "name": "@apollo-link-debug/handle-abort",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "peerDependencies": {
+    "@apollo/client": "*"
+  }
 }

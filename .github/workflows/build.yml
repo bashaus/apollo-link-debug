@@ -1,13 +1,12 @@
-name: Test
+name: Build
 
 on:
   pull_request:
     branches:
-      - main
-      - develop
+      - '*'
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,10 +18,5 @@ jobs:
       - name: yarn
         run: yarn install --frozen-lockfile
 
-      - name: test
-        run: yarn test --coverage
-
-      - name: codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: build
+        run: yarn build

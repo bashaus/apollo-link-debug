@@ -13,7 +13,7 @@ yarn add @apollo-link-debug/handle-errors
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { createErrorsLink } from '@apollo-link-debug/handle-errors';
 
 const client = new ApolloClient({
