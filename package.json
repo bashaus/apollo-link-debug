@@ -1,7 +1,12 @@
 {
   "name": "apollo-link-debug",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
+  "homepage": "https://github.com/bashaus/apollo-link-debug",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bashaus/apollo-link-debug.git"
+  },
   "license": "MIT",
   "scripts": {
     "build": "nx run-many --target=build",
