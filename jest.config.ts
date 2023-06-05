@@ -1,5 +1,7 @@
-import { getJestProjects } from '@nrwl/jest';
+import { Config } from 'jest';
 
-export default {
-  projects: getJestProjects(),
+const config: Config = {
+  projects: ['packages/*'],
 };
+
+export default config;

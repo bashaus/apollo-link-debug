@@ -2,9 +2,9 @@
 name: Publish
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types:
+      - created
 
 jobs:
   publish:
@@ -18,6 +18,10 @@ jobs:
           - handle-timer
 
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -30,10 +34,11 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: build ${{ matrix.package }}
-        run: yarn nx run ${{ matrix.package }}:build
+        working-directory: packages/${{ matrix.package }}
+        run: yarn build
 
-      - name: npm publish
-        working-directory: dist/packages/${{ matrix.package }}
-        run: npm publish --access public
+      - name: publish ${{ matrix.package }}
+        working-directory: packages/${{ matrix.package }}
+        run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -8,6 +8,20 @@
   },
   "license": "MIT",
   "type": "commonjs",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@apollo/client": "^3.7.15"
+  },
   "peerDependencies": {
     "@apollo/client": "*"
   }

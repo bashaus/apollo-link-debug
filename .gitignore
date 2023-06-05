@@ -1,12 +1,13 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-dist
-tmp
-/out-tsc
+dist/
+coverage/
+tmp/
 
 # dependencies
-node_modules
+.turbo/
+node_modules/
 
 # IDEs and editors
 /.idea
@@ -27,7 +28,6 @@ node_modules
 # misc
 /.sass-cache
 /connect.lock
-/coverage
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
