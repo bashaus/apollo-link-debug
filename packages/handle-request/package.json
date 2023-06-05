@@ -1,6 +1,6 @@
 {
   "name": "@apollo-link-debug/handle-request",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "https://github.com/bashaus/apollo-link-debug/tree/main/packages/handle-request",
   "repository": {
     "type": "git",
