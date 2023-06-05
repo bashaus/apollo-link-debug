@@ -5,7 +5,6 @@
     "esbenp.prettier-vscode",
     "firsttris.vscode-jest-runner",
     "graphql.vscode-graphql",
-    "nrwl.angular-console",
     "wix.vscode-import-cost"
   ]
 }

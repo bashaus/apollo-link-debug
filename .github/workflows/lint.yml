@@ -26,4 +26,4 @@ jobs:
         run: yarn prettier --check .
 
       - name: lint
-        run: yarn nx run-many --target=lint
+        run: yarn eslint .
