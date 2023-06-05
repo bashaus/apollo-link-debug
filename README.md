@@ -1,5 +1,7 @@
 # @apollo-link-debug/\*
 
+[![codecov](https://codecov.io/gh/bashaus/apollo-link-debug/branch/main/graph/badge.svg?token=QJNOYSFXDH)](https://codecov.io/gh/bashaus/apollo-link-debug)
+
 A collection of apollo links used to help debug GraphQL requests and responses.
 
 See the individual packages for more information:
