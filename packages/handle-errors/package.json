@@ -1,6 +1,6 @@
 {
   "name": "@apollo-link-debug/handle-errors",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "homepage": "https://github.com/bashaus/apollo-link-debug/tree/main/packages/handle-errors",
   "repository": {
     "type": "git",
