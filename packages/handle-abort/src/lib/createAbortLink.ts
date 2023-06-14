@@ -12,7 +12,8 @@ export const createAbortLink = ({
 }: CreateAbortLinkOptions = {}) => {
   const requestHandler = new ApolloLink((operation, forward) => {
     const context = operation.getContext();
-    const signal: AbortSignal | undefined = context['fetchOptions'].signal;
+    const { fetchOptions = {} } = context;
+    const signal: AbortSignal | undefined = fetchOptions.signal;
 
     if (signal) {
       const abortHandler = createAbortEventListener(operation);
@@ -31,8 +32,9 @@ export const createAbortLink = ({
 
   const responseHandler = (operation: Operation) => {
     const context = operation.getContext();
+    const { fetchOptions = {} } = context;
 
-    const signal: AbortSignal | undefined = context['fetchOptions'].signal;
+    const signal: AbortSignal | undefined = fetchOptions.signal;
     const abortHandler = context['abortHandler'];
 
     if (signal && abortHandler) {
