@@ -61,4 +61,35 @@ describe('createAbortLink', () => {
 
     expect(onAbort).toBeCalled();
   });
+
+  it('should handle no fetchOptions', async () => {
+    const onAbort = jest.fn();
+    const abortLink = createAbortLink({ onAbort });
+
+    await testApolloLink(abortLink, () => ({
+      operationName: OPERATION_NAME,
+      context: {},
+    }));
+
+    expect(onAbort).not.toBeCalled();
+  });
+
+  it('should not be called when an error occurs', async () => {
+    const onAbort = jest.fn();
+    const errorLink = createAbortLink({ onAbort });
+
+    const throwLink = new ApolloLink((operation, forward) => {
+      return forward(operation).map(() => {
+        throw new Error();
+      });
+    });
+
+    await expect(async () => {
+      await testApolloLink(ApolloLink.from([errorLink, throwLink]), () => ({
+        operationName: OPERATION_NAME,
+      }));
+    }).rejects.toThrow();
+
+    expect(onAbort).not.toBeCalled();
+  });
 });
