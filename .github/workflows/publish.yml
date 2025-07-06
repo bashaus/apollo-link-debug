@@ -27,15 +27,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '22.x'
-          cache: 'yarn'
+          cache: npm
           registry-url: 'https://registry.npmjs.org'
 
-      - name: yarn
-        run: yarn install --frozen-lockfile
+      - name: npm
+        run: npm ci
 
       - name: build ${{ matrix.package }}
         working-directory: packages/${{ matrix.package }}
-        run: yarn build
+        run: npm run build
 
       - name: publish ${{ matrix.package }}
         working-directory: packages/${{ matrix.package }}
