@@ -17,13 +17,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '22.x'
-          cache: 'yarn'
+          cache: npm
 
-      - name: yarn
-        run: yarn install --frozen-lockfile
+      - name: npm
+        run: npm ci
 
       - name: test
-        run: yarn test --coverage
+        run: npm test --coverage
 
       - name: codecov
         uses: codecov/codecov-action@v3
