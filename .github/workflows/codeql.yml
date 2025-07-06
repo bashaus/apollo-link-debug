@@ -22,8 +22,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: github/codeql-action/init@v1
+      - uses: github/codeql-action/init@v3
         with:
-          languages: javascript
+          languages: javascript-typescript
 
-      - uses: github/codeql-action/analyze@v1
+      - uses: github/codeql-action/analyze@v3
