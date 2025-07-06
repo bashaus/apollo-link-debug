@@ -1,4 +1,4 @@
-import { Operation } from '@apollo/client';
+import { Operation } from "@apollo/client";
 
 export type OnNetworkErrorCallback = (options: {
   operation: Operation;
@@ -10,5 +10,5 @@ export const onNetworkErrorHandler: OnNetworkErrorCallback = ({
   error,
 }) => {
   const { operationName } = operation;
-  console.error(operationName, 'network error', error);
+  console.error(operationName, "network error", error);
 };

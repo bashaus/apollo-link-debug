@@ -1,17 +1,17 @@
-import { testApolloLink } from '@apollo-link-debug/core';
+import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createRequestLink } from './createRequestLink';
+import { createRequestLink } from "./createRequestLink";
 
-const OPERATION_NAME = 'createRequestLink';
+const OPERATION_NAME = "createRequestLink";
 
-describe('createRequestLink', () => {
-  it('should report an operation', async () => {
+describe("createRequestLink", () => {
+  it("should report an operation", async () => {
     const onRequest = jest.fn();
     const requestLink = createRequestLink({ onRequest });
 
     const variables = {
-      one: 'one',
-      two: 'two',
+      one: "one",
+      two: "two",
     };
 
     await testApolloLink(requestLink, () => ({

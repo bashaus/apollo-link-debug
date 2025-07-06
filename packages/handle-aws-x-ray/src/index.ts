@@ -1,1 +1,1 @@
-export * from './lib/createAwsXRayLink';
+export * from "./lib/createAwsXRayLink";

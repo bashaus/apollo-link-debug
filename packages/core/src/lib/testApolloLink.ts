@@ -6,7 +6,7 @@ import {
   GraphQLRequest,
   Observable,
   Operation,
-} from '@apollo/client';
+} from "@apollo/client";
 
 const MockQuery = gql`
   query {
@@ -23,11 +23,11 @@ const DEFAULT_REQUEST: GraphQLRequest = { query: MockQuery };
 
 export async function testApolloLink<
   T = unknown,
-  U extends Record<string, unknown> = Record<string, unknown>
+  U extends Record<string, unknown> = Record<string, unknown>,
 >(
   linkToTest: ApolloLink,
   mockRequest: () => Partial<GraphQLRequest> = () => DEFAULT_REQUEST,
-  mockResponse: () => FetchResult<U> = () => ({ data: null })
+  mockResponse: () => FetchResult<U> = () => ({ data: null }),
 ) {
   const linkResult = {} as LinkResult<T>;
 
@@ -49,7 +49,7 @@ export async function testApolloLink<
       },
       () => {
         resolve(linkResult);
-      }
+      },
     );
   });
 }

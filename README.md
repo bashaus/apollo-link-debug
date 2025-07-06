@@ -31,12 +31,12 @@ yarn add \
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
-import { createRequestLink } from '@apollo-link-debug/handle-request';
-import { createErrorsLink } from '@apollo-link-debug/handle-errors';
+import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
+import { createRequestLink } from "@apollo-link-debug/handle-request";
+import { createErrorsLink } from "@apollo-link-debug/handle-errors";
 
 const client = new ApolloClient({
-  uri: 'https://localhost:3000/',
+  uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
   link: ApolloLink.from([createRequestLink(), createErrorsLink()]),
 });

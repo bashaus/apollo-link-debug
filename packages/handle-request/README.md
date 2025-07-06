@@ -13,11 +13,11 @@ yarn add @apollo-link-debug/handle-request
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
-import { createRequestLink } from '@apollo-link-debug/handle-request';
+import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
+import { createRequestLink } from "@apollo-link-debug/handle-request";
 
 const client = new ApolloClient({
-  uri: 'https://localhost:3000/',
+  uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
   link: ApolloLink.from([createRequestLink()]),
 });
@@ -25,7 +25,7 @@ const client = new ApolloClient({
 const query = client.query({
   query: gql`query MyOperationName { ... }`,
   variables: {
-    variableName: 'variableValue',
+    variableName: "variableValue",
   },
 });
 ```

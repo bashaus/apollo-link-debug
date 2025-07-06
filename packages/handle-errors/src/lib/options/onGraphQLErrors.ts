@@ -1,9 +1,9 @@
-import { Operation } from '@apollo/client';
-import { GraphQLError } from 'graphql';
+import { Operation } from "@apollo/client";
+import { GraphQLFormattedError } from "graphql";
 
 export type OnGraphQLErrorsCallback = (options: {
   operation: Operation;
-  errors: Readonly<Array<GraphQLError>>;
+  errors: Readonly<Array<GraphQLFormattedError>>;
   message: string;
 }) => void;
 

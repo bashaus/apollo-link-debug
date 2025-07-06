@@ -1,7 +1,7 @@
-import { Config } from 'jest';
+import { Config } from "jest";
 
 const config: Config = {
-  projects: ['packages/*'],
+  projects: ["packages/*"],
 };
 
 export default config;

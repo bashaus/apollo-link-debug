@@ -1,13 +1,13 @@
-import { Headers } from 'cross-fetch';
-import { testApolloLink } from '@apollo-link-debug/core';
+import { testApolloLink } from "@apollo-link-debug/core";
+import { Headers } from "cross-fetch";
 
-import { createAwsXRayLink } from './createAwsXRayLink';
+import { createAwsXRayLink } from "./createAwsXRayLink";
 
-const OPERATION_NAME = 'createAwsXRayLink';
+const OPERATION_NAME = "createAwsXRayLink";
 
-describe('createAwsXRayLink', () => {
-  describe('#onNoHeaders', () => {
-    it('should callback when no headers exist', async () => {
+describe("createAwsXRayLink", () => {
+  describe("#onNoHeaders", () => {
+    it("should callback when no headers exist", async () => {
       const onNoHeaders = jest.fn();
       const xrayLink = createAwsXRayLink({ onNoHeaders });
 
@@ -19,8 +19,8 @@ describe('createAwsXRayLink', () => {
     });
   });
 
-  describe('#onNoTraceId', () => {
-    it('should callback when no trace id exists', async () => {
+  describe("#onNoTraceId", () => {
+    it("should callback when no trace id exists", async () => {
       const onNoTraceId = jest.fn();
       const xrayLink = createAwsXRayLink({ onNoTraceId });
 
@@ -37,8 +37,8 @@ describe('createAwsXRayLink', () => {
     });
   });
 
-  describe('#onNoSample', () => {
-    it('should callback when query is not sampled', async () => {
+  describe("#onNoSample", () => {
+    it("should callback when query is not sampled", async () => {
       const onNoSample = jest.fn();
       const xrayLink = createAwsXRayLink({ onNoSample });
 
@@ -47,8 +47,8 @@ describe('createAwsXRayLink', () => {
         context: {
           response: {
             headers: new Headers({
-              'X-Amzn-Trace-Id':
-                'Root=1-5759e988-bd862e3fe1be46a994272793;Sampled=0',
+              "X-Amzn-Trace-Id":
+                "Root=1-5759e988-bd862e3fe1be46a994272793;Sampled=0",
             }),
           },
         },
@@ -58,19 +58,19 @@ describe('createAwsXRayLink', () => {
     });
   });
 
-  describe('#onResponse', () => {
-    it('should report trace id', async () => {
+  describe("#onResponse", () => {
+    it("should report trace id", async () => {
       const onResponse = jest.fn();
       const xrayLink = createAwsXRayLink({ onResponse });
 
-      const traceId = '1-5759e988-bd862e3fe1be46a994272793';
+      const traceId = "1-5759e988-bd862e3fe1be46a994272793";
 
       await testApolloLink(xrayLink, () => ({
         operationName: OPERATION_NAME,
         context: {
           response: {
             headers: new Headers({
-              'X-Amzn-Trace-Id': `Root=${traceId};Sampled=1`,
+              "X-Amzn-Trace-Id": `Root=${traceId};Sampled=1`,
             }),
           },
         },

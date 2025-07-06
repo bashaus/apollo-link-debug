@@ -1,4 +1,4 @@
-import { Operation } from '@apollo/client';
+import { Operation } from "@apollo/client";
 
 export type OnResponseCallback = (options: {
   operation: Operation;

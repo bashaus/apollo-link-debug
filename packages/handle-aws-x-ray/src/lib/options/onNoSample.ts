@@ -1,8 +1,8 @@
-import { Operation } from '@apollo/client';
+import { Operation } from "@apollo/client";
 
 export type OnNoSampleCallback = (options: { operation: Operation }) => void;
 
 export const onNoSampleHandler: OnNoSampleCallback = ({ operation }) => {
   const { operationName } = operation;
-  console.info(operationName, 'aws-x-ray: not sampled');
+  console.info(operationName, "aws-x-ray: not sampled");
 };

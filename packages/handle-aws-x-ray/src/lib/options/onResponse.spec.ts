@@ -1,19 +1,19 @@
-import { testApolloLink } from '@apollo-link-debug/core';
-import { Headers } from 'cross-fetch';
+import { testApolloLink } from "@apollo-link-debug/core";
+import { Headers } from "cross-fetch";
 
-import { createAwsXRayLink } from '../createAwsXRayLink';
-import { onResponseHandler } from './onResponse';
+import { createAwsXRayLink } from "../createAwsXRayLink";
+import { onResponseHandler } from "./onResponse";
 
-const OPERATION_NAME = 'createAwsXRayLink';
+const OPERATION_NAME = "createAwsXRayLink";
 
-describe('createAwsXRayLink', () => {
-  describe('#onResponse', () => {
-    it('should console log', async () => {
+describe("createAwsXRayLink", () => {
+  describe("#onResponse", () => {
+    it("should console log", async () => {
       const awsXRayLink = createAwsXRayLink({
         onResponse: onResponseHandler,
       });
 
-      const infoSpy = jest.spyOn(console, 'info');
+      const infoSpy = jest.spyOn(console, "info");
       infoSpy.mockImplementationOnce(() => {
         /* */
       });
@@ -25,19 +25,19 @@ describe('createAwsXRayLink', () => {
           context: {
             response: {
               headers: new Headers({
-                'X-Amzn-Trace-Id':
-                  'Root=1-5759e988-bd862e3fe1be46a994272793;Sampled=1',
+                "X-Amzn-Trace-Id":
+                  "Root=1-5759e988-bd862e3fe1be46a994272793;Sampled=1",
               }),
             },
           },
         }),
-        () => ({ data: {} })
+        () => ({ data: {} }),
       );
 
       expect(infoSpy).toHaveBeenCalledTimes(1);
       expect(infoSpy).toHaveBeenCalledWith(
         OPERATION_NAME,
-        'aws-x-ray: https://console.aws.amazon.com/xray/home#/traces/1-5759e988-bd862e3fe1be46a994272793'
+        "aws-x-ray: https://console.aws.amazon.com/xray/home#/traces/1-5759e988-bd862e3fe1be46a994272793",
       );
     });
   });
