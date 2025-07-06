@@ -34,8 +34,11 @@ describe('createAwsXRayLink', () => {
         () => ({ data: {} })
       );
 
-      expect(infoSpy).toBeCalledTimes(1);
-      expect(infoSpy).toBeCalledWith(OPERATION_NAME, 'aws-x-ray: not sampled');
+      expect(infoSpy).toHaveBeenCalledTimes(1);
+      expect(infoSpy).toHaveBeenCalledWith(
+        OPERATION_NAME,
+        'aws-x-ray: not sampled'
+      );
     });
   });
 });

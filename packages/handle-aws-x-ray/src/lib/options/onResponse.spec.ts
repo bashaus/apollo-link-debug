@@ -34,8 +34,8 @@ describe('createAwsXRayLink', () => {
         () => ({ data: {} })
       );
 
-      expect(infoSpy).toBeCalledTimes(1);
-      expect(infoSpy).toBeCalledWith(
+      expect(infoSpy).toHaveBeenCalledTimes(1);
+      expect(infoSpy).toHaveBeenCalledWith(
         OPERATION_NAME,
         'aws-x-ray: https://console.aws.amazon.com/xray/home#/traces/1-5759e988-bd862e3fe1be46a994272793'
       );

@@ -31,8 +31,8 @@ describe('createRequestLink', () => {
         () => ({ data: {} })
       );
 
-      expect(debugSpy).toBeCalledTimes(1);
-      expect(debugSpy).toBeCalledWith(OPERATION_NAME, variables);
+      expect(debugSpy).toHaveBeenCalledTimes(1);
+      expect(debugSpy).toHaveBeenCalledWith(OPERATION_NAME, variables);
     });
   });
 });

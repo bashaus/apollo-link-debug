@@ -46,8 +46,8 @@ describe('createAbortLink', () => {
       // Resolve the test
       await testLinkPromise;
 
-      expect(infoSpy).toBeCalledTimes(1);
-      expect(infoSpy).toBeCalledWith(OPERATION_NAME, 'aborted');
+      expect(infoSpy).toHaveBeenCalledTimes(1);
+      expect(infoSpy).toHaveBeenCalledWith(OPERATION_NAME, 'aborted');
     });
   });
 });
