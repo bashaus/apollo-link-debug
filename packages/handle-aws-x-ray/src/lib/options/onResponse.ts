@@ -2,7 +2,7 @@ import { Operation } from "@apollo/client";
 
 export type OnResponseCallback = (options: {
   operation: Operation;
-  traceId: string;
+  traceId?: string;
 }) => void;
 
 export const onResponseHandler: OnResponseCallback = ({
