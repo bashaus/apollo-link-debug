@@ -15,7 +15,7 @@ describe('createAwsXRayLink', () => {
         operationName: OPERATION_NAME,
       }));
 
-      expect(onNoHeaders).toBeCalledTimes(1);
+      expect(onNoHeaders).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -33,7 +33,7 @@ describe('createAwsXRayLink', () => {
         },
       }));
 
-      expect(onNoTraceId).toBeCalledTimes(1);
+      expect(onNoTraceId).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -54,7 +54,7 @@ describe('createAwsXRayLink', () => {
         },
       }));
 
-      expect(onNoSample).toBeCalledTimes(1);
+      expect(onNoSample).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -76,7 +76,7 @@ describe('createAwsXRayLink', () => {
         },
       }));
 
-      expect(onResponse).toBeCalledTimes(1);
+      expect(onResponse).toHaveBeenCalledTimes(1);
     });
   });
 });

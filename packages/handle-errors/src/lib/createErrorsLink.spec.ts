@@ -22,8 +22,8 @@ describe('createErrorsLink', () => {
       () => ({ errors: [graphqlError] })
     );
 
-    expect(onGraphQLErrors).toBeCalledTimes(1);
-    expect(onGraphQLErrors).toBeCalledWith(
+    expect(onGraphQLErrors).toHaveBeenCalledTimes(1);
+    expect(onGraphQLErrors).toHaveBeenCalledWith(
       expect.objectContaining({
         message: `${graphqlError.message}\n  on line: 1, column: 6\n`,
       })
@@ -47,8 +47,8 @@ describe('createErrorsLink', () => {
       }));
     }).rejects.toThrow();
 
-    expect(onNetworkError).toBeCalledTimes(1);
-    expect(onNetworkError).toBeCalledWith(
+    expect(onNetworkError).toHaveBeenCalledTimes(1);
+    expect(onNetworkError).toHaveBeenCalledWith(
       expect.objectContaining({
         error: networkError,
       })

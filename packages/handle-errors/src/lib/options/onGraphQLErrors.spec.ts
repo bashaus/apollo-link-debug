@@ -30,8 +30,8 @@ describe('createErrorsLink', () => {
         () => ({ errors: [graphqlError] })
       );
 
-      expect(errorLog).toBeCalledTimes(1);
-      expect(errorLog).toBeCalledWith(
+      expect(errorLog).toHaveBeenCalledTimes(1);
+      expect(errorLog).toHaveBeenCalledWith(
         OPERATION_NAME,
         'mock error message\n  on line: 1, column: 6\n'
       );

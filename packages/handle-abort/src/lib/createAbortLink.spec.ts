@@ -21,7 +21,7 @@ describe('createAbortLink', () => {
       },
     }));
 
-    expect(onAbort).not.toBeCalled();
+    expect(onAbort).not.toHaveBeenCalled();
   });
 
   it('should display on abort signal fired', async () => {
@@ -59,7 +59,7 @@ describe('createAbortLink', () => {
     // Resolve the test
     await testLinkPromise;
 
-    expect(onAbort).toBeCalled();
+    expect(onAbort).toHaveBeenCalled();
   });
 
   it('should handle no fetchOptions', async () => {
@@ -71,7 +71,7 @@ describe('createAbortLink', () => {
       context: {},
     }));
 
-    expect(onAbort).not.toBeCalled();
+    expect(onAbort).not.toHaveBeenCalled();
   });
 
   it('should not be called when an error occurs', async () => {
@@ -90,6 +90,6 @@ describe('createAbortLink', () => {
       }));
     }).rejects.toThrow();
 
-    expect(onAbort).not.toBeCalled();
+    expect(onAbort).not.toHaveBeenCalled();
   });
 });

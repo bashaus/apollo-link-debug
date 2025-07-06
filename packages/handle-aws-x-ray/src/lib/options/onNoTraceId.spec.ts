@@ -30,8 +30,8 @@ describe('createAwsXRayLink', () => {
         () => ({ data: {} })
       );
 
-      expect(warnSpy).toBeCalledTimes(1);
-      expect(warnSpy).toBeCalledWith(
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      expect(warnSpy).toHaveBeenCalledWith(
         OPERATION_NAME,
         'aws-x-ray: x-amzn-trace-id not found in response header'
       );

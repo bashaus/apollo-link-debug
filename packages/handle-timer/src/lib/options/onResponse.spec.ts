@@ -37,8 +37,8 @@ describe('createTimerLink', () => {
         }
       );
 
-      expect(logSpy).toBeCalledTimes(1);
-      expect(logSpy).toBeCalledWith(OPERATION_NAME, 'took 3 sec');
+      expect(logSpy).toHaveBeenCalledTimes(1);
+      expect(logSpy).toHaveBeenCalledWith(OPERATION_NAME, 'took 3 sec');
     });
   });
 });

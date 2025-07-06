@@ -19,6 +19,6 @@ describe('createRequestLink', () => {
       variables,
     }));
 
-    expect(onRequest).toBeCalledTimes(1);
+    expect(onRequest).toHaveBeenCalledTimes(1);
   });
 });

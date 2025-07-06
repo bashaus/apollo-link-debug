@@ -31,8 +31,8 @@ describe('createTimerLink', () => {
       }
     );
 
-    expect(onResponseMock).toBeCalledTimes(1);
-    expect(onResponseMock).toBeCalledWith(
+    expect(onResponseMock).toHaveBeenCalledTimes(1);
+    expect(onResponseMock).toHaveBeenCalledWith(
       expect.objectContaining({
         difference: 3000,
       })
