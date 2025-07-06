@@ -1,12 +1,13 @@
-import { onError } from '@apollo/client/link/error';
+import { onError } from "@apollo/client/link/error";
+
 import {
   OnGraphQLErrorsCallback,
   onGraphQLErrorsHandler,
-} from './options/onGraphQLErrors';
+} from "./options/onGraphQLErrors";
 import {
   OnNetworkErrorCallback,
   onNetworkErrorHandler,
-} from './options/onNetworkError';
+} from "./options/onNetworkError";
 
 export type createErrorsLinkOptions = {
   onGraphQLErrors?: OnGraphQLErrorsCallback;
@@ -25,7 +26,7 @@ export const createErrorsLink = ({
     const { graphQLErrors, networkError, operation } = errorResponse;
 
     if (graphQLErrors) {
-      let message = '';
+      let message = "";
 
       graphQLErrors.forEach((graphQLError) => {
         message += `${graphQLError.message}\n`;
@@ -41,7 +42,6 @@ export const createErrorsLink = ({
 
     if (networkError) {
       onNetworkError({ operation, error: networkError });
-      return;
     }
   });
 };

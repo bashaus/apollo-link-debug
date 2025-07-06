@@ -1,6 +1,7 @@
-import { ApolloLink, Operation } from '@apollo/client';
-import { onError } from '@apollo/client/link/error';
-import { OnResponseCallback, onResponseHandler } from './options/onResponse';
+import { ApolloLink, Operation } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+
+import { OnResponseCallback, onResponseHandler } from "./options/onResponse";
 
 export type CreateTimerLinkOptions = {
   onResponse?: OnResponseCallback;

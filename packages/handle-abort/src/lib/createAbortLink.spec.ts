@@ -1,12 +1,16 @@
-import { ApolloLink } from '@apollo/client';
-import { testApolloLink } from '@apollo-link-debug/core';
+import { ApolloLink } from "@apollo/client";
+import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createAbortLink } from './createAbortLink';
+import { createAbortLink } from "./createAbortLink";
 
-const OPERATION_NAME = 'createAbortLink';
+const OPERATION_NAME = "createAbortLink";
 
-describe('createAbortLink', () => {
-  it('should not trigger when successful', async () => {
+const resolveOnTick = (resolve: (value: boolean) => void) => {
+  setTimeout(() => resolve(true), 1);
+};
+
+describe("createAbortLink", () => {
+  it("should not trigger when successful", async () => {
     const onAbort = jest.fn();
     const abortLink = createAbortLink({ onAbort });
 
@@ -24,7 +28,7 @@ describe('createAbortLink', () => {
     expect(onAbort).not.toHaveBeenCalled();
   });
 
-  it('should display on abort signal fired', async () => {
+  it("should display on abort signal fired", async () => {
     const onAbort = jest.fn();
     const abortLink = createAbortLink({ onAbort });
 
@@ -32,9 +36,7 @@ describe('createAbortLink', () => {
 
     const deferLink = new ApolloLink((operation, forward) => {
       operation.setContext(() => {
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(true), 1);
-        });
+        return new Promise(resolveOnTick);
       });
 
       return forward(operation);
@@ -50,7 +52,7 @@ describe('createAbortLink', () => {
             signal: abortController.signal,
           },
         },
-      })
+      }),
     );
 
     // Abort immediately
@@ -62,7 +64,7 @@ describe('createAbortLink', () => {
     expect(onAbort).toHaveBeenCalled();
   });
 
-  it('should handle no fetchOptions', async () => {
+  it("should handle no fetchOptions", async () => {
     const onAbort = jest.fn();
     const abortLink = createAbortLink({ onAbort });
 
@@ -74,7 +76,7 @@ describe('createAbortLink', () => {
     expect(onAbort).not.toHaveBeenCalled();
   });
 
-  it('should not be called when an error occurs', async () => {
+  it("should not be called when an error occurs", async () => {
     const onAbort = jest.fn();
     const errorLink = createAbortLink({ onAbort });
 

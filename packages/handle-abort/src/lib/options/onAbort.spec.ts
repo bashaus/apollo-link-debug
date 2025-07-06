@@ -1,16 +1,16 @@
-import { testApolloLink } from '@apollo-link-debug/core';
-import { ApolloLink } from '@apollo/client';
+import { ApolloLink } from "@apollo/client";
+import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createAbortLink } from '../createAbortLink';
-import { onAbortHandler } from './onAbort';
+import { createAbortLink } from "../createAbortLink";
+import { onAbortHandler } from "./onAbort";
 
-const OPERATION_NAME = 'createAbortLink';
+const OPERATION_NAME = "createAbortLink";
 
-describe('createAbortLink', () => {
-  describe('#onAbort', () => {
-    it('should console log', async () => {
+describe("createAbortLink", () => {
+  describe("#onAbort", () => {
+    it("should console log", async () => {
       const abortLink = createAbortLink({ onAbort: onAbortHandler });
-      const infoSpy = jest.spyOn(console, 'info');
+      const infoSpy = jest.spyOn(console, "info");
       infoSpy.mockImplementationOnce(() => {
         /* */
       });
@@ -37,7 +37,7 @@ describe('createAbortLink', () => {
               signal: abortController.signal,
             },
           },
-        })
+        }),
       );
 
       // Abort immediately
@@ -47,7 +47,7 @@ describe('createAbortLink', () => {
       await testLinkPromise;
 
       expect(infoSpy).toHaveBeenCalledTimes(1);
-      expect(infoSpy).toHaveBeenCalledWith(OPERATION_NAME, 'aborted');
+      expect(infoSpy).toHaveBeenCalledWith(OPERATION_NAME, "aborted");
     });
   });
 });

@@ -1,4 +1,5 @@
-import { Operation } from '@apollo/client';
+import { Operation } from "@apollo/client";
+
 export type OnResponseCallback = (options: {
   operation: Operation;
   traceId: string;
@@ -12,6 +13,6 @@ export const onResponseHandler: OnResponseCallback = ({
 
   console.info(
     operationName,
-    `aws-x-ray: https://console.aws.amazon.com/xray/home#/traces/${traceId}`
+    `aws-x-ray: https://console.aws.amazon.com/xray/home#/traces/${traceId}`,
   );
 };

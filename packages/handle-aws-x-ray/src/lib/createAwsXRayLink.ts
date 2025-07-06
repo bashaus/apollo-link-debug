@@ -1,12 +1,11 @@
-import { ApolloLink, Operation } from '@apollo/client';
-import { onError } from '@apollo/client/link/error';
-import { parse } from 'cookie';
-import { Headers } from 'cross-fetch';
+import { ApolloLink, Operation } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+import { parse } from "cookie";
 
-import { OnResponseCallback, onResponseHandler } from './options/onResponse';
-import { OnNoHeadersCallback, onNoHeadersHandler } from './options/onNoHeaders';
-import { OnNoSampleCallback, onNoSampleHandler } from './options/onNoSample';
-import { OnNoTraceIdCallback, onNoTraceIdHandler } from './options/onNoTraceId';
+import { OnNoHeadersCallback, onNoHeadersHandler } from "./options/onNoHeaders";
+import { OnNoSampleCallback, onNoSampleHandler } from "./options/onNoSample";
+import { OnNoTraceIdCallback, onNoTraceIdHandler } from "./options/onNoTraceId";
+import { OnResponseCallback, onResponseHandler } from "./options/onResponse";
 
 export type createAwsXRayLinkOptions = {
   onResponse?: OnResponseCallback;
@@ -31,19 +30,19 @@ export const createAwsXRayLink = ({
       return;
     }
 
-    const traceId = headers.get('X-Amzn-Trace-Id');
+    const traceId = headers.get("X-Amzn-Trace-Id");
     if (traceId === null) {
       onNoTraceId({ operation });
       return;
     }
 
     const params = parse(traceId);
-    if (params['Sampled'] === '0') {
+    if (params["Sampled"] === "0") {
       onNoSample({ operation });
       return;
     }
 
-    onResponse({ operation, traceId: params['Root'] });
+    onResponse({ operation, traceId: params["Root"] });
   };
 
   const successHandler = new ApolloLink((operation, forward) => {

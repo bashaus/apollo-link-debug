@@ -15,11 +15,11 @@ yarn add @apollo-link-debug/handle-abort
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
-import { createAbortLink } from '@apollo-link-debug/handle-abort';
+import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
+import { createAbortLink } from "@apollo-link-debug/handle-abort";
 
 const client = new ApolloClient({
-  uri: 'https://localhost:3000/',
+  uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
   link: ApolloLink.from([createAbortLink()]),
 });

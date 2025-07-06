@@ -13,11 +13,11 @@ yarn add @apollo-link-debug/handle-timer
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
-import { createTimerLink } from '@apollo-link-debug/handle-timer';
+import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
+import { createTimerLink } from "@apollo-link-debug/handle-timer";
 
 const client = new ApolloClient({
-  uri: 'https://localhost:3000/',
+  uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
   link: ApolloLink.from([createTimerLink()]),
 });
@@ -25,7 +25,7 @@ const client = new ApolloClient({
 const query = client.query({
   query: gql`query MyOperationName { ... }`,
   variables: {
-    variableName: 'variableValue',
+    variableName: "variableValue",
   },
 });
 ```

@@ -1,8 +1,7 @@
-/* eslint-disable */
 export default {
-  displayName: 'handle-errors',
+  displayName: "handle-errors",
   transform: {
-    '^.+\\.[tj]s$': '@swc/jest',
+    "^.+\\.[tj]s$": "@swc/jest",
   },
-  moduleFileExtensions: ['ts', 'js', 'html'],
+  moduleFileExtensions: ["ts", "js", "html"],
 };

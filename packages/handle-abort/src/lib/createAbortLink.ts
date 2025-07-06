@@ -1,7 +1,7 @@
-import { ApolloLink, Operation } from '@apollo/client';
-import { onError } from '@apollo/client/link/error';
+import { ApolloLink, Operation } from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 
-import { OnAbortCallback, onAbortHandler } from './options/onAbort';
+import { OnAbortCallback, onAbortHandler } from "./options/onAbort";
 
 export type CreateAbortLinkOptions = {
   onAbort?: OnAbortCallback;
@@ -18,7 +18,7 @@ export const createAbortLink = ({
     if (signal) {
       const abortHandler = createAbortEventListener(operation);
       operation.setContext({ abortHandler });
-      signal.addEventListener('abort', abortHandler);
+      signal.addEventListener("abort", abortHandler);
     }
 
     return forward(operation);
@@ -35,10 +35,10 @@ export const createAbortLink = ({
     const { fetchOptions = {} } = context;
 
     const signal: AbortSignal | undefined = fetchOptions.signal;
-    const abortHandler = context['abortHandler'];
+    const abortHandler = context["abortHandler"];
 
     if (signal && abortHandler) {
-      signal.removeEventListener('abort', abortHandler);
+      signal.removeEventListener("abort", abortHandler);
     }
   };
 

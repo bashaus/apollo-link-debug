@@ -13,11 +13,11 @@ yarn add @apollo-link-debug/handle-aws-x-ray
 ## Usage
 
 ```typescript
-import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
-import { createAwsXRayLink } from '@apollo-link-debug/handle-aws-x-ray';
+import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
+import { createAwsXRayLink } from "@apollo-link-debug/handle-aws-x-ray";
 
 const client = new ApolloClient({
-  uri: 'https://localhost:3000/',
+  uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
   link: ApolloLink.from([createAwsXRayLink()]),
 });

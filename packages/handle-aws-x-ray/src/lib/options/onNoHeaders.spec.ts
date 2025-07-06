@@ -1,18 +1,18 @@
-import { testApolloLink } from '@apollo-link-debug/core';
+import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createAwsXRayLink } from '../createAwsXRayLink';
-import { onNoHeadersHandler } from './onNoHeaders';
+import { createAwsXRayLink } from "../createAwsXRayLink";
+import { onNoHeadersHandler } from "./onNoHeaders";
 
-const OPERATION_NAME = 'createAwsXRayLink';
+const OPERATION_NAME = "createAwsXRayLink";
 
-describe('createAwsXRayLink', () => {
-  describe('#onNoHeaders', () => {
-    it('should console log', async () => {
+describe("createAwsXRayLink", () => {
+  describe("#onNoHeaders", () => {
+    it("should console log", async () => {
       const awsXRayLink = createAwsXRayLink({
         onNoHeaders: onNoHeadersHandler,
       });
 
-      const warnSpy = jest.spyOn(console, 'warn');
+      const warnSpy = jest.spyOn(console, "warn");
       warnSpy.mockImplementationOnce(() => {
         /* */
       });
@@ -22,13 +22,13 @@ describe('createAwsXRayLink', () => {
         () => ({
           operationName: OPERATION_NAME,
         }),
-        () => ({ data: {} })
+        () => ({ data: {} }),
       );
 
       expect(warnSpy).toHaveBeenCalledTimes(1);
       expect(warnSpy).toHaveBeenCalledWith(
         OPERATION_NAME,
-        'aws-x-ray: no headers received'
+        "aws-x-ray: no headers received",
       );
     });
   });
