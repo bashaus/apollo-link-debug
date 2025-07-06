@@ -1,6 +1,6 @@
 {
   "name": "@apollo-link-debug/handle-aws-x-ray",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "homepage": "https://github.com/bashaus/apollo-link-debug/tree/main/packages/handle-aws-x-ray",
   "repository": {
     "type": "git",
