@@ -1,6 +1,6 @@
 {
   "name": "@apollo-link-debug/handle-timer",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "homepage": "https://github.com/bashaus/apollo-link-debug/tree/main/packages/handle-timer",
   "repository": {
     "type": "git",
