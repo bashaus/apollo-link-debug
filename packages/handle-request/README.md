@@ -4,22 +4,24 @@ Debugs the operation name and variables used for a GraphQL request via apollo.
 
 ## Installation
 
+Requires **@apollo/client v4**.
+
 ```bash
-npm i @apollo-link-debug/handle-request
+npm i @apollo/client @apollo-link-debug/handle-request
 # - or -
-yarn add @apollo-link-debug/handle-request
+yarn add @apollo/client @apollo-link-debug/handle-request
 ```
 
 ## Usage
 
 ```typescript
 import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
-import { createRequestLink } from "@apollo-link-debug/handle-request";
+import { RequestLink } from "@apollo-link-debug/handle-request";
 
 const client = new ApolloClient({
   uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
-  link: ApolloLink.from([createRequestLink()]),
+  link: ApolloLink.from([new RequestLink()]),
 });
 
 const query = client.query({

@@ -4,22 +4,24 @@ Describes the amount of time taken to process a GraphQL response via apollo.
 
 ## Installation
 
+Requires **@apollo/client v4**.
+
 ```bash
-npm i @apollo-link-debug/handle-timer
+npm i @apollo/client @apollo-link-debug/handle-timer
 # - or -
-yarn add @apollo-link-debug/handle-timer
+yarn add @apollo/client @apollo-link-debug/handle-timer
 ```
 
 ## Usage
 
 ```typescript
 import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
-import { createTimerLink } from "@apollo-link-debug/handle-timer";
+import { TimerLink } from "@apollo-link-debug/handle-timer";
 
 const client = new ApolloClient({
   uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
-  link: ApolloLink.from([createTimerLink()]),
+  link: ApolloLink.from([new TimerLink()]),
 });
 
 const query = client.query({

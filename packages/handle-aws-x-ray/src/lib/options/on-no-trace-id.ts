@@ -1,6 +1,8 @@
-import { Operation } from "@apollo/client";
+import { ApolloLink } from "@apollo/client";
 
-export type OnNoTraceIdCallback = (options: { operation: Operation }) => void;
+export type OnNoTraceIdCallback = (options: {
+  operation: ApolloLink.Operation;
+}) => void;
 
 export const onNoTraceIdHandler: OnNoTraceIdCallback = ({ operation }) => {
   const { operationName } = operation;

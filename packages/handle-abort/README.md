@@ -6,22 +6,24 @@ Because the same query can be used in multiple places with separate contexts, it
 
 ## Installation
 
+Requires **@apollo/client v4**.
+
 ```bash
-npm i @apollo-link-debug/handle-abort
+npm i @apollo/client @apollo-link-debug/handle-abort
 # - or -
-yarn add @apollo-link-debug/handle-abort
+yarn add @apollo/client @apollo-link-debug/handle-abort
 ```
 
 ## Usage
 
 ```typescript
 import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
-import { createAbortLink } from "@apollo-link-debug/handle-abort";
+import { AbortLink } from "@apollo-link-debug/handle-abort";
 
 const client = new ApolloClient({
   uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
-  link: ApolloLink.from([createAbortLink()]),
+  link: ApolloLink.from([new AbortLink()]),
 });
 
 /* */

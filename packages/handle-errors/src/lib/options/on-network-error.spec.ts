@@ -1,39 +1,44 @@
-import { ApolloLink } from "@apollo/client";
+import { ApolloLink, gql } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
+import { map } from "rxjs/operators";
 
-import { createErrorsLink } from "../errors-link";
+import { ErrorsLink } from "../errors-link";
 import { onNetworkErrorHandler } from "./on-network-error";
 
-const OPERATION_NAME = "createErrorsLink";
-
-describe("createErrorsLink", () => {
+describe("ErrorsLink", () => {
   describe("#onNetworkError", () => {
     it("should console log", async () => {
       const networkError = new Error("network error");
-      const errorLink = createErrorsLink({
+      const errorLink = new ErrorsLink({
         onNetworkError: onNetworkErrorHandler,
       });
 
-      const errorLog = jest.spyOn(console, "error");
+      const errorLog = vi.spyOn(console, "error");
       errorLog.mockImplementationOnce(() => {
         /* */
       });
 
       const throwLink = new ApolloLink((operation, forward) => {
-        return forward(operation).map(() => {
-          throw networkError;
-        });
+        return forward(operation).pipe(
+          map(() => {
+            throw networkError;
+          }),
+        );
       });
 
       await expect(async () => {
         await testApolloLink(ApolloLink.from([errorLink, throwLink]), () => ({
-          operationName: OPERATION_NAME,
+          query: gql`
+            query ErrorsLink {
+              noop
+            }
+          `,
         }));
       }).rejects.toThrow();
 
       expect(errorLog).toHaveBeenCalledTimes(1);
       expect(errorLog).toHaveBeenCalledWith(
-        OPERATION_NAME,
+        "ErrorsLink",
         "network error",
         networkError,
       );

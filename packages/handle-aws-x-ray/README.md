@@ -4,22 +4,24 @@ Provides a unique URL to debug a GraphQL query run via AWS X-Ray.
 
 ## Installation
 
+Requires **@apollo/client v4**.
+
 ```bash
-npm i @apollo-link-debug/handle-aws-x-ray
+npm i @apollo/client @apollo-link-debug/handle-aws-x-ray
 # - or -
-yarn add @apollo-link-debug/handle-aws-x-ray
+yarn add @apollo/client @apollo-link-debug/handle-aws-x-ray
 ```
 
 ## Usage
 
 ```typescript
 import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
-import { createAwsXRayLink } from "@apollo-link-debug/handle-aws-x-ray";
+import { AwsXRayLink } from "@apollo-link-debug/handle-aws-x-ray";
 
 const client = new ApolloClient({
   uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
-  link: ApolloLink.from([createAwsXRayLink()]),
+  link: ApolloLink.from([new AwsXRayLink()]),
 });
 ```
 

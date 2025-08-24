@@ -1,18 +1,17 @@
+import { gql } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createRequestLink } from "../request-link";
+import { RequestLink } from "../request-link";
 import { onRequestHandler } from "./on-request";
 
-const OPERATION_NAME = "createRequestLink";
-
-describe("createRequestLink", () => {
+describe("RequestLink", () => {
   describe("#onRequest", () => {
     it("should console log", async () => {
-      const awsXRayLink = createRequestLink({
+      const requestLink = new RequestLink({
         onRequest: onRequestHandler,
       });
 
-      const debugSpy = jest.spyOn(console, "debug");
+      const debugSpy = vi.spyOn(console, "debug");
       debugSpy.mockImplementationOnce(() => {
         /* */
       });
@@ -23,16 +22,20 @@ describe("createRequestLink", () => {
       };
 
       await testApolloLink(
-        awsXRayLink,
+        requestLink,
         () => ({
-          operationName: OPERATION_NAME,
+          query: gql`
+            query RequestLink {
+              noop
+            }
+          `,
           variables,
         }),
         () => ({ data: {} }),
       );
 
       expect(debugSpy).toHaveBeenCalledTimes(1);
-      expect(debugSpy).toHaveBeenCalledWith(OPERATION_NAME, variables);
+      expect(debugSpy).toHaveBeenCalledWith("RequestLink", variables);
     });
   });
 });

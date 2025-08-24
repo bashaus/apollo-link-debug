@@ -1,49 +1,68 @@
-import { ApolloLink, Operation } from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
+import { ApolloLink, Observable } from "@apollo/client";
 
 import { OnResponseCallback, onResponseHandler } from "./options/on-response";
 
-export type CreateTimerLinkOptions = {
-  onResponse?: OnResponseCallback;
+export type TimerLinkOptions = {
+  onResponse: OnResponseCallback;
 };
 
-/**
- * Identifies how long it took to fulfil a GraphQL operation
- */
-export const createTimerLink = ({
-  onResponse = onResponseHandler,
-}: CreateTimerLinkOptions = {}) => {
-  const requestLink = new ApolloLink((operation, forward) => {
+export class TimerLink extends ApolloLink {
+  protected options: TimerLinkOptions;
+
+  constructor(options: Partial<TimerLinkOptions> = {}) {
+    super();
+
+    this.options = {
+      onResponse: options.onResponse ?? onResponseHandler,
+    };
+  }
+
+  private startTimer(operation: ApolloLink.Operation) {
     operation.setContext({
       timerStart: new Date(),
     });
+  }
 
-    return forward(operation);
-  });
-
-  const responseHandler = (operation: Operation) => {
+  private stopTimer(operation: ApolloLink.Operation) {
     const { timerStart } = operation.getContext();
+    if (!timerStart) return;
+
     const timerEnd = new Date();
     const difference = timerEnd.getTime() - timerStart.getTime();
 
-    onResponse({
+    this.options.onResponse({
       operation,
       timerStart,
       timerEnd,
       difference,
     });
-  };
+  }
 
-  const successLink = new ApolloLink((operation, forward) => {
-    return forward(operation).map((data) => {
-      responseHandler(operation);
-      return data;
+  override request(
+    operation: ApolloLink.Operation,
+    forward: ApolloLink.ForwardFunction,
+  ): Observable<ApolloLink.Result> {
+    // ⏱️ Start timing before forwarding
+    this.startTimer(operation);
+
+    return new Observable<ApolloLink.Result>((observer) => {
+      const subscription = forward(operation).subscribe({
+        next: (result) => {
+          this.stopTimer(operation); // ✅ report on success
+          observer.next?.(result);
+        },
+        error: (networkError) => {
+          this.stopTimer(operation); // ✅ report on error too
+          observer.error?.(networkError);
+        },
+        complete: () => {
+          observer.complete?.();
+        },
+      });
+
+      return () => {
+        subscription.unsubscribe();
+      };
     });
-  });
-
-  const errorLink = onError(({ operation }) => {
-    responseHandler(operation);
-  });
-
-  return ApolloLink.from([requestLink, successLink, errorLink]);
-};
+  }
+}

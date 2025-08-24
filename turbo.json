@@ -11,6 +11,7 @@
       "cache": false
     },
     "lint": {},
-    "test": {}
+    "test": {},
+    "typecheck": {}
   }
 }

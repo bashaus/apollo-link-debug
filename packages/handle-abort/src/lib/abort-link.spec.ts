@@ -1,23 +1,22 @@
-import { ApolloLink } from "@apollo/client";
+import { ApolloLink, gql, Observable } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
+import { map } from "rxjs/operators";
 
-import { createAbortLink } from "./abort-link";
+import { AbortLink } from "./abort-link";
 
-const OPERATION_NAME = "createAbortLink";
-
-const resolveOnTick = (resolve: (value: boolean) => void) => {
-  setTimeout(() => resolve(true), 1);
-};
-
-describe("createAbortLink", () => {
+describe("AbortLink", () => {
   it("should not trigger when successful", async () => {
-    const onAbort = jest.fn();
-    const abortLink = createAbortLink({ onAbort });
+    const onAbort = vi.fn();
+    const abortLink = new AbortLink({ onAbort });
 
     const abortController = new AbortController();
 
     await testApolloLink(abortLink, () => ({
-      operationName: OPERATION_NAME,
+      query: gql`
+        query AbortLink {
+          noop
+        }
+      `,
       context: {
         fetchOptions: {
           signal: abortController.signal,
@@ -29,24 +28,41 @@ describe("createAbortLink", () => {
   });
 
   it("should display on abort signal fired", async () => {
-    const onAbort = jest.fn();
-    const abortLink = createAbortLink({ onAbort });
+    const onAbort = vi.fn();
+    const abortLink = new AbortLink({ onAbort });
 
     const abortController = new AbortController();
 
     const deferLink = new ApolloLink((operation, forward) => {
-      operation.setContext(() => {
-        return new Promise(resolveOnTick);
-      });
+      return new Observable((observer) => {
+        const timeout = setTimeout(() => {
+          const subscription = forward(operation).subscribe({
+            next: observer.next.bind(observer),
+            error: observer.error.bind(observer),
+            complete: observer.complete.bind(observer),
+          });
 
-      return forward(operation);
+          return () => {
+            subscription.unsubscribe();
+            clearTimeout(timeout);
+          };
+        }, 1);
+
+        return () => {
+          clearTimeout(timeout);
+        };
+      });
     });
 
     // Prepare the link
     const testLinkPromise = testApolloLink(
       ApolloLink.from([abortLink, deferLink]),
       () => ({
-        operationName: OPERATION_NAME,
+        query: gql`
+          query AbortLink {
+            noop
+          }
+        `,
         context: {
           fetchOptions: {
             signal: abortController.signal,
@@ -64,12 +80,45 @@ describe("createAbortLink", () => {
     expect(onAbort).toHaveBeenCalled();
   });
 
+  it("should complete without firing the abort callback", async () => {
+    const onAbort = vi.fn();
+    const abortLink = new AbortLink({ onAbort });
+    const abortController = new AbortController();
+    const completeLink = new ApolloLink(() => {
+      return new Observable((observer) => {
+        observer.complete();
+        return () => undefined;
+      });
+    });
+
+    await expect(
+      testApolloLink(ApolloLink.from([abortLink, completeLink]), () => ({
+        query: gql`
+          query AbortLink {
+            noop
+          }
+        `,
+        context: {
+          fetchOptions: {
+            signal: abortController.signal,
+          },
+        },
+      })),
+    ).resolves.toBeDefined();
+
+    expect(onAbort).not.toHaveBeenCalled();
+  });
+
   it("should handle no fetchOptions", async () => {
-    const onAbort = jest.fn();
-    const abortLink = createAbortLink({ onAbort });
+    const onAbort = vi.fn();
+    const abortLink = new AbortLink({ onAbort });
 
     await testApolloLink(abortLink, () => ({
-      operationName: OPERATION_NAME,
+      query: gql`
+        query AbortLink {
+          noop
+        }
+      `,
       context: {},
     }));
 
@@ -77,18 +126,24 @@ describe("createAbortLink", () => {
   });
 
   it("should not be called when an error occurs", async () => {
-    const onAbort = jest.fn();
-    const errorLink = createAbortLink({ onAbort });
+    const onAbort = vi.fn();
+    const errorLink = new AbortLink({ onAbort });
 
     const throwLink = new ApolloLink((operation, forward) => {
-      return forward(operation).map(() => {
-        throw new Error();
-      });
+      return forward(operation).pipe(
+        map(() => {
+          throw new Error();
+        }),
+      );
     });
 
     await expect(async () => {
       await testApolloLink(ApolloLink.from([errorLink, throwLink]), () => ({
-        operationName: OPERATION_NAME,
+        query: gql`
+          query AbortLink {
+            noop
+          }
+        `,
       }));
     }).rejects.toThrow();
 

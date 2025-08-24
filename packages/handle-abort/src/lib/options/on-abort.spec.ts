@@ -1,16 +1,14 @@
-import { ApolloLink } from "@apollo/client";
+import { ApolloLink, gql, Observable } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createAbortLink } from "../abort-link";
+import { AbortLink } from "../abort-link";
 import { onAbortHandler } from "./on-abort";
 
-const OPERATION_NAME = "createAbortLink";
-
-describe("createAbortLink", () => {
+describe("AbortLink", () => {
   describe("#onAbort", () => {
     it("should console log", async () => {
-      const abortLink = createAbortLink({ onAbort: onAbortHandler });
-      const infoSpy = jest.spyOn(console, "info");
+      const abortLink = new AbortLink({ onAbort: onAbortHandler });
+      const infoSpy = vi.spyOn(console, "info");
       infoSpy.mockImplementationOnce(() => {
         /* */
       });
@@ -18,20 +16,35 @@ describe("createAbortLink", () => {
       const abortController = new AbortController();
 
       const deferLink = new ApolloLink((operation, forward) => {
-        operation.setContext(() => {
-          return new Promise((resolve) => {
-            setTimeout(() => resolve(true), 1);
-          });
-        });
+        return new Observable((observer) => {
+          const timeout = setTimeout(() => {
+            const subscription = forward(operation).subscribe({
+              next: observer.next.bind(observer),
+              error: observer.error.bind(observer),
+              complete: observer.complete.bind(observer),
+            });
 
-        return forward(operation);
+            return () => {
+              subscription.unsubscribe();
+              clearTimeout(timeout);
+            };
+          }, 1);
+
+          return () => {
+            clearTimeout(timeout);
+          };
+        });
       });
 
       // Prepare the link
       const testLinkPromise = testApolloLink(
         ApolloLink.from([abortLink, deferLink]),
         () => ({
-          operationName: OPERATION_NAME,
+          query: gql`
+            query AbortLink {
+              noop
+            }
+          `,
           context: {
             fetchOptions: {
               signal: abortController.signal,
@@ -47,7 +60,7 @@ describe("createAbortLink", () => {
       await testLinkPromise;
 
       expect(infoSpy).toHaveBeenCalledTimes(1);
-      expect(infoSpy).toHaveBeenCalledWith(OPERATION_NAME, "aborted");
+      expect(infoSpy).toHaveBeenCalledWith("AbortLink", "aborted");
     });
   });
 });
