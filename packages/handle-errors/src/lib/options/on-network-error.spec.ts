@@ -1,8 +1,8 @@
 import { ApolloLink } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createErrorsLink } from "../createErrorsLink";
-import { onNetworkErrorHandler } from "./onNetworkError";
+import { createErrorsLink } from "../errors-link";
+import { onNetworkErrorHandler } from "./on-network-error";
 
 const OPERATION_NAME = "createErrorsLink";
 

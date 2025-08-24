@@ -1,8 +1,8 @@
 import { testApolloLink } from "@apollo-link-debug/core";
 import { Headers } from "cross-fetch";
 
-import { createAwsXRayLink } from "../createAwsXRayLink";
-import { onResponseHandler } from "./onResponse";
+import { createAwsXRayLink } from "../aws-x-ray-link";
+import { onResponseHandler } from "./on-response";
 
 const OPERATION_NAME = "createAwsXRayLink";
 

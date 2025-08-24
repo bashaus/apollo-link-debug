@@ -2,10 +2,16 @@ import { ApolloLink, Operation } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { parse } from "cookie";
 
-import { OnNoHeadersCallback, onNoHeadersHandler } from "./options/onNoHeaders";
-import { OnNoSampleCallback, onNoSampleHandler } from "./options/onNoSample";
-import { OnNoTraceIdCallback, onNoTraceIdHandler } from "./options/onNoTraceId";
-import { OnResponseCallback, onResponseHandler } from "./options/onResponse";
+import {
+  OnNoHeadersCallback,
+  onNoHeadersHandler,
+} from "./options/on-no-headers";
+import { OnNoSampleCallback, onNoSampleHandler } from "./options/on-no-sample";
+import {
+  OnNoTraceIdCallback,
+  onNoTraceIdHandler,
+} from "./options/on-no-trace-id";
+import { OnResponseCallback, onResponseHandler } from "./options/on-response";
 
 export type createAwsXRayLinkOptions = {
   onResponse?: OnResponseCallback;

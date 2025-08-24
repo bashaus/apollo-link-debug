@@ -1,7 +1,7 @@
 import { ApolloLink } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createAbortLink } from "./createAbortLink";
+import { createAbortLink } from "./abort-link";
 
 const OPERATION_NAME = "createAbortLink";
 
