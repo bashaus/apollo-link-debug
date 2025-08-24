@@ -1,6 +1,6 @@
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createTimerLink } from "./createTimerLink";
+import { createTimerLink } from "./timer-link";
 
 const OPERATION_NAME = "createTimerLink";
 

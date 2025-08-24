@@ -1,7 +1,7 @@
 import { ApolloLink, Operation } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 
-import { OnAbortCallback, onAbortHandler } from "./options/onAbort";
+import { OnAbortCallback, onAbortHandler } from "./options/on-abort";
 
 export type CreateAbortLinkOptions = {
   onAbort?: OnAbortCallback;

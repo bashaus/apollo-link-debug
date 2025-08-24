@@ -1,1 +1,1 @@
-export * from "./lib/createAbortLink";
+export * from "./lib/abort-link";

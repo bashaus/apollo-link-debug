@@ -1,6 +1,6 @@
 import { ApolloLink } from "@apollo/client";
 
-import { OnRequestCallback, onRequestHandler } from "./options/onRequest";
+import { OnRequestCallback, onRequestHandler } from "./options/on-request";
 
 export type createRequestLinkOptions = {
   onRequest?: OnRequestCallback;

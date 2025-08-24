@@ -1,15 +1,15 @@
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createAwsXRayLink } from "../createAwsXRayLink";
-import { onNoTraceIdHandler } from "./onNoTraceId";
+import { createAwsXRayLink } from "../aws-x-ray-link";
+import { onNoHeadersHandler } from "./on-no-headers";
 
 const OPERATION_NAME = "createAwsXRayLink";
 
 describe("createAwsXRayLink", () => {
-  describe("#onNoTraceId", () => {
+  describe("#onNoHeaders", () => {
     it("should console log", async () => {
       const awsXRayLink = createAwsXRayLink({
-        onNoTraceId: onNoTraceIdHandler,
+        onNoHeaders: onNoHeadersHandler,
       });
 
       const warnSpy = jest.spyOn(console, "warn");
@@ -21,11 +21,6 @@ describe("createAwsXRayLink", () => {
         awsXRayLink,
         () => ({
           operationName: OPERATION_NAME,
-          context: {
-            response: {
-              headers: new Headers({}),
-            },
-          },
         }),
         () => ({ data: {} }),
       );
@@ -33,7 +28,7 @@ describe("createAwsXRayLink", () => {
       expect(warnSpy).toHaveBeenCalledTimes(1);
       expect(warnSpy).toHaveBeenCalledWith(
         OPERATION_NAME,
-        "aws-x-ray: x-amzn-trace-id not found in response header",
+        "aws-x-ray: no headers received",
       );
     });
   });

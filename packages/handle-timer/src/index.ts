@@ -1,1 +1,1 @@
-export * from "./lib/createTimerLink";
+export * from "./lib/timer-link";

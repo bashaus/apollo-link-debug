@@ -2,8 +2,8 @@ import { ApolloLink } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 import { GraphQLError, Source } from "graphql";
 
-import { createErrorsLink } from "../createErrorsLink";
-import { onGraphQLErrorsHandler } from "./onGraphQLErrors";
+import { createErrorsLink } from "../errors-link";
+import { onGraphQLErrorsHandler } from "./on-graphql-errors";
 
 const OPERATION_NAME = "createErrorsLink";
 

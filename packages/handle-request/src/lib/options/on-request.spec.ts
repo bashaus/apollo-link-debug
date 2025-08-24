@@ -1,7 +1,7 @@
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createRequestLink } from "../createRequestLink";
-import { onRequestHandler } from "./onRequest";
+import { createRequestLink } from "../request-link";
+import { onRequestHandler } from "./on-request";
 
 const OPERATION_NAME = "createRequestLink";
 

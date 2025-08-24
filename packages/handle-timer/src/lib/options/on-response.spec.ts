@@ -1,7 +1,7 @@
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createTimerLink } from "../createTimerLink";
-import { onResponseHandler } from "./onResponse";
+import { createTimerLink } from "../timer-link";
+import { onResponseHandler } from "./on-response";
 
 const OPERATION_NAME = "createTimerLink";
 

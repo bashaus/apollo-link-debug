@@ -3,11 +3,11 @@ import { onError } from "@apollo/client/link/error";
 import {
   OnGraphQLErrorsCallback,
   onGraphQLErrorsHandler,
-} from "./options/onGraphQLErrors";
+} from "./options/on-graphql-errors";
 import {
   OnNetworkErrorCallback,
   onNetworkErrorHandler,
-} from "./options/onNetworkError";
+} from "./options/on-network-error";
 
 export type createErrorsLinkOptions = {
   onGraphQLErrors?: OnGraphQLErrorsCallback;

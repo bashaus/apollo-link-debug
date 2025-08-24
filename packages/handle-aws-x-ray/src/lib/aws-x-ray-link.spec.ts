@@ -1,7 +1,7 @@
 import { testApolloLink } from "@apollo-link-debug/core";
 import { Headers } from "cross-fetch";
 
-import { createAwsXRayLink } from "./createAwsXRayLink";
+import { createAwsXRayLink } from "./aws-x-ray-link";
 
 const OPERATION_NAME = "createAwsXRayLink";
 
