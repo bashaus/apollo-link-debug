@@ -3,10 +3,8 @@
 # compiled output
 dist/
 coverage/
-tmp/
 
 # dependencies
-.turbo/
 node_modules/
 
 # IDEs and editors
@@ -37,3 +35,10 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+*.tsbuildinfo
+
+# tests
+junit.xml
+
+# build
+.turbo/
