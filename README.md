@@ -1,6 +1,7 @@
 # @apollo-link-debug/\*
 
-[![codecov](https://codecov.io/gh/bashaus/apollo-link-debug/branch/main/graph/badge.svg?token=QJNOYSFXDH)](https://codecov.io/gh/bashaus/apollo-link-debug)
+[![github actions build][img:gh-build]][url:gh-build]
+[![code coverage][img:codecov]][url:codecov]
 
 A collection of apollo links used to help debug GraphQL requests and responses.
 
@@ -42,12 +43,8 @@ const client = new ApolloClient({
 });
 ```
 
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+[url:posthtml]: https://github.com/posthtml/posthtml
+[img:codecov]: https://codecov.io/gh/bashaus/apollo-link-debug/branch/main/graph/badge.svg?token=QJNOYSFXDH
+[url:codecov]: https://codecov.io/gh/bashaus/apollo-link-debug
+[img:gh-build]: https://github.com/bashaus/apollo-link-debug/actions/workflows/build.yml/badge.svg
+[url:gh-build]: https://github.com/bashaus/apollo-link-debug/actions/workflows/build.yml

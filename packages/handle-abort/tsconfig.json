@@ -1,22 +1,21 @@
 {
-  "extends": "@apollo-link-debug/tsconfig",
   "compilerOptions": {
-    "module": "commonjs",
+    "declaration": true,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "lib": ["es2017"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noPropertyAccessFromIndexSignature": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2015"
   },
-  "files": [],
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.build.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

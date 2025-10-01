@@ -1,10 +1,10 @@
 ---
-name: Publish
+name: publish
 
 on:
   release:
     types:
-      - created
+      - published
 
 jobs:
   publish:
@@ -16,29 +16,25 @@ jobs:
           - handle-errors
           - handle-request
           - handle-timer
-
     runs-on: ubuntu-latest
-
     permissions:
+      contents: read
       id-token: write
-
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: "22.x"
-          cache: npm
+          cache: "npm"
           registry-url: "https://registry.npmjs.org"
 
-      - name: npm
+      - name: install
         run: npm ci
 
-      - name: build ${{ matrix.package }}
-        working-directory: packages/${{ matrix.package }}
+      - name: build
         run: npm run build
 
-      - name: publish ${{ matrix.package }}
-        working-directory: packages/${{ matrix.package }}
+      - name: publish
         run: npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

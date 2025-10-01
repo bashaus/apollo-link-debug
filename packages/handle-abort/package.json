@@ -7,7 +7,6 @@
     "url": "https://github.com/bashaus/apollo-link-debug.git"
   },
   "license": "MIT",
-  "type": "commonjs",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
