@@ -20,7 +20,7 @@
     "typecheck": "turbo run typecheck"
   },
   "dependencies": {
-    "cookie": "^1.0.2",
+    "cookie": "^2.0.1",
     "cross-fetch": "^4.1.0"
   },
   "devDependencies": {
