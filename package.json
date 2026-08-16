@@ -33,7 +33,7 @@
     "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "graphql": "^16.11.0",
+    "graphql": "^17.0.2",
     "husky": "^9.1.7",
     "prettier": "3.6.2",
     "react": "^19.1.0",
