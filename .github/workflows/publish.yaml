@@ -32,6 +32,13 @@ jobs:
           path: dist/
 
   publish:
+    needs: build
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
     strategy:
       matrix:
         package:
@@ -40,10 +47,7 @@ jobs:
           - handle-errors
           - handle-request
           - handle-timer
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
+
     steps:
       - uses: actions/checkout@v7
 
