@@ -1,5 +1,5 @@
 import { ApolloLink, Observable } from "@apollo/client";
-import { parse } from "cookie";
+import { parseCookie } from "cookie";
 
 import {
   OnNoHeadersCallback,
@@ -49,7 +49,7 @@ export class AwsXRayLink extends ApolloLink {
       return;
     }
 
-    const params = parse(traceId);
+    const params = parseCookie(traceId);
     if (params["Sampled"] === "0") {
       this.options.onNoSample({ operation });
       return;
