@@ -7,33 +7,7 @@ on:
       - published
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version-file: ".nvmrc"
-          cache: npm
-
-      - name: install
-        run: npm ci
-
-      - name: build
-        run: npm run build
-
-      - uses: actions/upload-artifact@v7
-        with:
-          name: dist
-          path: packages/*/dist/
-
   publish:
-    needs: build
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -51,10 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: actions/download-artifact@v8
-        with:
-          name: dist
-
       - uses: actions/setup-node@v7
         with:
           node-version-file: ".nvmrc"
@@ -64,6 +34,10 @@ jobs:
       - name: install
         run: npm ci
 
+      - name: build
+        working-directory: packages/${{ matrix.package }}/
+        run: npm run build
+
       - name: publish
-        working-directory: packages/${{ matrix.package }}
+        working-directory: packages/${{ matrix.package }}/
         run: npm publish --access public --provenance
