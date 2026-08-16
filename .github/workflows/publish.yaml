@@ -65,4 +65,5 @@ jobs:
         run: npm ci
 
       - name: publish
+        working-directory: packages/${{ matrix.package }}
         run: npm publish --access public --provenance
