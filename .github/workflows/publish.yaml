@@ -29,7 +29,7 @@ jobs:
       - uses: actions/upload-artifact@v7
         with:
           name: dist
-          path: dist/
+          path: packages/*/dist/
 
   publish:
     needs: build
@@ -65,4 +65,5 @@ jobs:
         run: npm ci
 
       - name: publish
+        working-directory: packages/${{ matrix.package }}
         run: npm publish --access public --provenance
