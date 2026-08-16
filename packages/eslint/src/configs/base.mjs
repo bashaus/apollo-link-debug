@@ -1,7 +1,6 @@
 import { fixupConfigRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
-import jestPlugin from "eslint-plugin-jest";
 import prettierPlugin from "eslint-plugin-prettier/recommended";
 import promisePlugin from "eslint-plugin-promise";
 import simpleImportSortPlugin from "eslint-plugin-simple-import-sort";
@@ -44,10 +43,5 @@ export default tseslint.config(
       "import/newline-after-import": "error",
       "import/no-duplicates": "error",
     },
-  },
-
-  {
-    files: ["*.spec.{ts,tsx}"],
-    ...jestPlugin.configs["flat/recommended"],
   },
 );

@@ -1,26 +1,25 @@
+import { gql } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createTimerLink } from "../timer-link";
+import { TimerLink } from "../timer-link";
 import { onResponseHandler } from "./on-response";
 
-const OPERATION_NAME = "createTimerLink";
-
-describe("createTimerLink", () => {
+describe("TimerLink", () => {
   describe("#onResponse", () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
     });
 
     afterEach(() => {
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     it("should console log", async () => {
-      const timerLink = createTimerLink({
+      const timerLink = new TimerLink({
         onResponse: onResponseHandler,
       });
 
-      const logSpy = jest.spyOn(console, "log");
+      const logSpy = vi.spyOn(console, "log");
       logSpy.mockImplementationOnce(() => {
         /* */
       });
@@ -28,17 +27,23 @@ describe("createTimerLink", () => {
       await testApolloLink(
         timerLink,
         () => {
-          jest.setSystemTime(new Date("1970-01-01T00:00:00Z"));
-          return { operationName: OPERATION_NAME };
+          vi.setSystemTime(new Date("1970-01-01T00:00:00Z"));
+          return {
+            query: gql`
+              query TimerLink {
+                noop
+              }
+            `,
+          };
         },
         () => {
-          jest.setSystemTime(new Date("1970-01-01T00:00:03Z"));
+          vi.setSystemTime(new Date("1970-01-01T00:00:03Z"));
           return { data: {} };
         },
       );
 
       expect(logSpy).toHaveBeenCalledTimes(1);
-      expect(logSpy).toHaveBeenCalledWith(OPERATION_NAME, "took 3 sec");
+      expect(logSpy).toHaveBeenCalledWith("TimerLink", "took 3 sec");
     });
   });
 });

@@ -1,57 +1,76 @@
-import { ApolloLink, Operation } from "@apollo/client";
-import { onError } from "@apollo/client/link/error";
+import { ApolloLink, Observable } from "@apollo/client";
 
 import { OnAbortCallback, onAbortHandler } from "./options/on-abort";
 
-export type CreateAbortLinkOptions = {
-  onAbort?: OnAbortCallback;
+export type AbortLinkOptions = {
+  onAbort: OnAbortCallback;
 };
 
-export const createAbortLink = ({
-  onAbort = onAbortHandler,
-}: CreateAbortLinkOptions = {}) => {
-  const requestHandler = new ApolloLink((operation, forward) => {
+export class AbortLink extends ApolloLink {
+  protected options: AbortLinkOptions;
+
+  constructor(options: Partial<AbortLinkOptions> = {}) {
+    super();
+
+    this.options = {
+      onAbort: options.onAbort ?? onAbortHandler,
+    };
+  }
+
+  private createAbortEventListener(operation: ApolloLink.Operation) {
+    return () => {
+      this.options.onAbort({ operation });
+    };
+  }
+
+  private attachAbortHandler(operation: ApolloLink.Operation) {
     const context = operation.getContext();
     const { fetchOptions = {} } = context;
     const signal: AbortSignal | undefined = fetchOptions.signal;
 
     if (signal) {
-      const abortHandler = createAbortEventListener(operation);
+      const abortHandler = this.createAbortEventListener(operation);
       operation.setContext({ abortHandler });
       signal.addEventListener("abort", abortHandler);
     }
+  }
 
-    return forward(operation);
-  });
-
-  const createAbortEventListener = (operation: Operation) => {
-    return () => {
-      onAbort({ operation });
-    };
-  };
-
-  const responseHandler = (operation: Operation) => {
+  private detachAbortHandler(operation: ApolloLink.Operation) {
     const context = operation.getContext();
     const { fetchOptions = {} } = context;
-
     const signal: AbortSignal | undefined = fetchOptions.signal;
     const abortHandler = context["abortHandler"];
 
     if (signal && abortHandler) {
       signal.removeEventListener("abort", abortHandler);
     }
-  };
+  }
 
-  const successHandler = new ApolloLink((operation, forward) => {
-    return forward(operation).map((data) => {
-      responseHandler(operation);
-      return data;
+  override request(
+    operation: ApolloLink.Operation,
+    forward: ApolloLink.ForwardFunction,
+  ): Observable<ApolloLink.Result> {
+    this.attachAbortHandler(operation);
+
+    return new Observable<ApolloLink.Result>((observer) => {
+      const subscription = forward(operation).subscribe({
+        next: (result) => {
+          this.detachAbortHandler(operation);
+          observer.next?.(result);
+        },
+        error: (networkError) => {
+          this.detachAbortHandler(operation);
+          observer.error?.(networkError);
+        },
+        complete: () => {
+          this.detachAbortHandler(operation);
+          observer.complete?.();
+        },
+      });
+
+      return () => {
+        subscription.unsubscribe();
+      };
     });
-  });
-
-  const errorHandler = onError(({ operation }) => {
-    responseHandler(operation);
-  });
-
-  return ApolloLink.from([requestHandler, successHandler, errorHandler]);
-};
+  }
+}

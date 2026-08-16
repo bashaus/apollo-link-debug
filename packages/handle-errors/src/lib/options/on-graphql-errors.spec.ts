@@ -1,20 +1,18 @@
-import { ApolloLink } from "@apollo/client";
+import { ApolloLink, gql } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 import { GraphQLError, Source } from "graphql";
 
-import { createErrorsLink } from "../errors-link";
+import { ErrorsLink } from "../errors-link";
 import { onGraphQLErrorsHandler } from "./on-graphql-errors";
 
-const OPERATION_NAME = "createErrorsLink";
-
-describe("createErrorsLink", () => {
+describe("ErrorsLink", () => {
   describe("#onGraphQLErrors", () => {
     it("should console log", async () => {
-      const errorLink = createErrorsLink({
+      const errorLink = new ErrorsLink({
         onGraphQLErrors: onGraphQLErrorsHandler,
       });
 
-      const errorLog = jest.spyOn(console, "error");
+      const errorLog = vi.spyOn(console, "error");
       errorLog.mockImplementationOnce(() => {
         /* */
       });
@@ -26,13 +24,19 @@ describe("createErrorsLink", () => {
 
       await testApolloLink(
         ApolloLink.from([errorLink]),
-        () => ({ operationName: OPERATION_NAME }),
+        () => ({
+          query: gql`
+            query ErrorsLink {
+              noop
+            }
+          `,
+        }),
         () => ({ errors: [graphqlError] }),
       );
 
       expect(errorLog).toHaveBeenCalledTimes(1);
       expect(errorLog).toHaveBeenCalledWith(
-        OPERATION_NAME,
+        "ErrorsLink",
         "mock error message\n  on line: 1, column: 6\n",
       );
     });

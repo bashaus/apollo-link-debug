@@ -1,18 +1,17 @@
+import { gql } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createAwsXRayLink } from "../aws-x-ray-link";
+import { AwsXRayLink } from "../aws-x-ray-link";
 import { onNoHeadersHandler } from "./on-no-headers";
 
-const OPERATION_NAME = "createAwsXRayLink";
-
-describe("createAwsXRayLink", () => {
+describe("AwsXRayLink", () => {
   describe("#onNoHeaders", () => {
     it("should console log", async () => {
-      const awsXRayLink = createAwsXRayLink({
+      const awsXRayLink = new AwsXRayLink({
         onNoHeaders: onNoHeadersHandler,
       });
 
-      const warnSpy = jest.spyOn(console, "warn");
+      const warnSpy = vi.spyOn(console, "warn");
       warnSpy.mockImplementationOnce(() => {
         /* */
       });
@@ -20,14 +19,18 @@ describe("createAwsXRayLink", () => {
       await testApolloLink(
         awsXRayLink,
         () => ({
-          operationName: OPERATION_NAME,
+          query: gql`
+            query AwsXRayLink {
+              noop
+            }
+          `,
         }),
         () => ({ data: {} }),
       );
 
       expect(warnSpy).toHaveBeenCalledTimes(1);
       expect(warnSpy).toHaveBeenCalledWith(
-        OPERATION_NAME,
+        "AwsXRayLink",
         "aws-x-ray: no headers received",
       );
     });

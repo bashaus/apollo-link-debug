@@ -1,7 +1,7 @@
-import { Operation } from "@apollo/client";
+import { ApolloLink } from "@apollo/client";
 
 export type OnResponseCallback = (options: {
-  operation: Operation;
+  operation: ApolloLink.Operation;
   traceId?: string;
 }) => void;
 

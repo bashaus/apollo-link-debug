@@ -15,16 +15,18 @@ See the individual packages for more information:
 
 ## Installation
 
-Install the individual package(s) that you would like to use and connect them to your apollo client.
+Install the individual package(s) that you would like to use and connect them to your apollo client. These packages require **@apollo/client v4**.
 
 ```bash
 npm i \
+  @apollo/client \
   @apollo-link-debug/handle-request \
   @apollo-link-debug/handle-errors
 
 # - or -
 
 yarn add \
+  @apollo/client \
   @apollo-link-debug/handle-request \
   @apollo-link-debug/handle-errors
 ```
@@ -33,18 +35,18 @@ yarn add \
 
 ```typescript
 import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
-import { createRequestLink } from "@apollo-link-debug/handle-request";
-import { createErrorsLink } from "@apollo-link-debug/handle-errors";
+import { RequestLink } from "@apollo-link-debug/handle-request";
+import { ErrorsLink } from "@apollo-link-debug/handle-errors";
 
 const client = new ApolloClient({
   uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
-  link: ApolloLink.from([createRequestLink(), createErrorsLink()]),
+  link: ApolloLink.from([new RequestLink(), new ErrorsLink()]),
 });
 ```
 
 [url:posthtml]: https://github.com/posthtml/posthtml
 [img:codecov]: https://codecov.io/gh/bashaus/apollo-link-debug/branch/main/graph/badge.svg?token=QJNOYSFXDH
 [url:codecov]: https://codecov.io/gh/bashaus/apollo-link-debug
-[img:gh-build]: https://github.com/bashaus/apollo-link-debug/actions/workflows/build.yml/badge.svg
-[url:gh-build]: https://github.com/bashaus/apollo-link-debug/actions/workflows/build.yml
+[img:gh-build]: https://github.com/bashaus/apollo-link-debug/actions/workflows/test.yaml/badge.svg
+[url:gh-build]: https://github.com/bashaus/apollo-link-debug/actions/workflows/test.yaml

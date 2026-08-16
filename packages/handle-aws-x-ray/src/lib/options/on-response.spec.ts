@@ -1,19 +1,18 @@
+import { gql } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 import { Headers } from "cross-fetch";
 
-import { createAwsXRayLink } from "../aws-x-ray-link";
+import { AwsXRayLink } from "../aws-x-ray-link";
 import { onResponseHandler } from "./on-response";
 
-const OPERATION_NAME = "createAwsXRayLink";
-
-describe("createAwsXRayLink", () => {
+describe("AwsXRayLink", () => {
   describe("#onResponse", () => {
     it("should console log", async () => {
-      const awsXRayLink = createAwsXRayLink({
+      const awsXRayLink = new AwsXRayLink({
         onResponse: onResponseHandler,
       });
 
-      const infoSpy = jest.spyOn(console, "info");
+      const infoSpy = vi.spyOn(console, "info");
       infoSpy.mockImplementationOnce(() => {
         /* */
       });
@@ -21,7 +20,11 @@ describe("createAwsXRayLink", () => {
       await testApolloLink(
         awsXRayLink,
         () => ({
-          operationName: OPERATION_NAME,
+          query: gql`
+            query AwsXRayLink {
+              noop
+            }
+          `,
           context: {
             response: {
               headers: new Headers({
@@ -36,7 +39,7 @@ describe("createAwsXRayLink", () => {
 
       expect(infoSpy).toHaveBeenCalledTimes(1);
       expect(infoSpy).toHaveBeenCalledWith(
-        OPERATION_NAME,
+        "AwsXRayLink",
         "aws-x-ray: https://console.aws.amazon.com/xray/home#/traces/1-5759e988-bd862e3fe1be46a994272793",
       );
     });

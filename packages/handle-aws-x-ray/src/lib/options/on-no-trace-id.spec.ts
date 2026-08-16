@@ -1,18 +1,17 @@
+import { gql } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createAwsXRayLink } from "../aws-x-ray-link";
+import { AwsXRayLink } from "../aws-x-ray-link";
 import { onNoTraceIdHandler } from "./on-no-trace-id";
 
-const OPERATION_NAME = "createAwsXRayLink";
-
-describe("createAwsXRayLink", () => {
+describe("AwsXRayLink", () => {
   describe("#onNoTraceId", () => {
     it("should console log", async () => {
-      const awsXRayLink = createAwsXRayLink({
+      const awsXRayLink = new AwsXRayLink({
         onNoTraceId: onNoTraceIdHandler,
       });
 
-      const warnSpy = jest.spyOn(console, "warn");
+      const warnSpy = vi.spyOn(console, "warn");
       warnSpy.mockImplementationOnce(() => {
         /* */
       });
@@ -20,7 +19,11 @@ describe("createAwsXRayLink", () => {
       await testApolloLink(
         awsXRayLink,
         () => ({
-          operationName: OPERATION_NAME,
+          query: gql`
+            query AwsXRayLink {
+              noop
+            }
+          `,
           context: {
             response: {
               headers: new Headers({}),
@@ -32,7 +35,7 @@ describe("createAwsXRayLink", () => {
 
       expect(warnSpy).toHaveBeenCalledTimes(1);
       expect(warnSpy).toHaveBeenCalledWith(
-        OPERATION_NAME,
+        "AwsXRayLink",
         "aws-x-ray: x-amzn-trace-id not found in response header",
       );
     });

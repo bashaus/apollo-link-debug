@@ -1,4 +1,4 @@
-import { onError } from "@apollo/client/link/error";
+import { ApolloLink, Observable } from "@apollo/client";
 
 import {
   OnGraphQLErrorsCallback,
@@ -9,39 +9,62 @@ import {
   onNetworkErrorHandler,
 } from "./options/on-network-error";
 
-export type createErrorsLinkOptions = {
-  onGraphQLErrors?: OnGraphQLErrorsCallback;
-  onNetworkError?: OnNetworkErrorCallback;
+export type ErrorsLinkOptions = {
+  onGraphQLErrors: OnGraphQLErrorsCallback;
+  onNetworkError: OnNetworkErrorCallback;
 };
 
-/**
- * Error handler
- * Outputs error response information from the back-end
- */
-export const createErrorsLink = ({
-  onGraphQLErrors = onGraphQLErrorsHandler,
-  onNetworkError = onNetworkErrorHandler,
-}: createErrorsLinkOptions = {}) => {
-  return onError((errorResponse) => {
-    const { graphQLErrors, networkError, operation } = errorResponse;
+export class ErrorsLink extends ApolloLink {
+  protected options: ErrorsLinkOptions;
 
-    if (graphQLErrors) {
-      let message = "";
+  constructor(options: Partial<ErrorsLinkOptions> = {}) {
+    super();
 
-      graphQLErrors.forEach((graphQLError) => {
-        message += `${graphQLError.message}\n`;
+    this.options = {
+      onGraphQLErrors: options.onGraphQLErrors ?? onGraphQLErrorsHandler,
+      onNetworkError: options.onNetworkError ?? onNetworkErrorHandler,
+    };
+  }
 
-        graphQLError.locations?.forEach(({ line, column }) => {
-          message += `  on line: ${line}, column: ${column}\n`;
-        });
+  override request(
+    operation: ApolloLink.Operation,
+    forward: ApolloLink.ForwardFunction,
+  ): Observable<ApolloLink.Result> {
+    return new Observable<ApolloLink.Result>((observer) => {
+      const subscription = forward(operation).subscribe({
+        next: (result) => {
+          if (result.errors && result.errors.length > 0) {
+            let message = "";
+
+            result.errors.forEach((graphQLError) => {
+              message += `${graphQLError.message}\n`;
+
+              graphQLError.locations?.forEach(({ line, column }) => {
+                message += `  on line: ${line}, column: ${column}\n`;
+              });
+            });
+
+            this.options.onGraphQLErrors({
+              operation,
+              errors: result.errors,
+              message,
+            });
+          }
+
+          observer.next?.(result);
+        },
+        error: (networkError) => {
+          this.options.onNetworkError({ operation, error: networkError });
+          observer.error?.(networkError);
+        },
+        complete: () => {
+          observer.complete?.();
+        },
       });
 
-      onGraphQLErrors({ operation, errors: graphQLErrors, message });
-      return;
-    }
-
-    if (networkError) {
-      onNetworkError({ operation, error: networkError });
-    }
-  });
-};
+      return () => {
+        subscription.unsubscribe();
+      };
+    });
+  }
+}

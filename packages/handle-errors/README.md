@@ -4,22 +4,24 @@ Debugs errors returned in a GraphQL response via apollo to the console.
 
 ## Installation
 
+Requires **@apollo/client v4**.
+
 ```bash
-npm i @apollo-link-debug/handle-errors
+npm i @apollo/client @apollo-link-debug/handle-errors
 # - or -
-yarn add @apollo-link-debug/handle-errors
+yarn add @apollo/client @apollo-link-debug/handle-errors
 ```
 
 ## Usage
 
 ```typescript
 import { ApolloClient, ApolloLink, InMemoryCache } from "@apollo/client";
-import { createErrorsLink } from "@apollo-link-debug/handle-errors";
+import { ErrorsLink } from "@apollo-link-debug/handle-errors";
 
 const client = new ApolloClient({
   uri: "https://localhost:3000/",
   cache: new InMemoryCache(),
-  link: ApolloLink.from([createErrorsLink()]),
+  link: ApolloLink.from([new ErrorsLink()]),
 });
 ```
 

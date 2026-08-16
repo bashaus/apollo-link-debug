@@ -1,6 +1,6 @@
 {
   "name": "@apollo-link-debug/handle-aws-x-ray",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/bashaus/apollo-link-debug/tree/main/packages/handle-aws-x-ray",
   "repository": {
     "type": "git",
@@ -16,17 +16,18 @@
     "build": "tsc --project tsconfig.build.json",
     "clean": "rm -rf dist",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "cookie": "^1.0.2",
     "cross-fetch": "^3.1.6"
   },
   "devDependencies": {
-    "@apollo/client": "^3.13.8",
+    "@apollo/client": "^4.2.12",
     "@types/cookie": "^0.5.1"
   },
   "peerDependencies": {
-    "@apollo/client": "*"
+    "@apollo/client": "^4"
   }
 }

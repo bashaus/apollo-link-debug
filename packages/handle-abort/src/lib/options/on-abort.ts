@@ -1,6 +1,8 @@
-import { Operation } from "@apollo/client";
+import { ApolloLink } from "@apollo/client";
 
-export type OnAbortCallback = (options: { operation: Operation }) => void;
+export type OnAbortCallback = (options: {
+  operation: ApolloLink.Operation;
+}) => void;
 
 export const onAbortHandler: OnAbortCallback = ({ operation }) => {
   const { operationName } = operation;

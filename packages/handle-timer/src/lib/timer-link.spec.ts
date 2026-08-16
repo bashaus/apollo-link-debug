@@ -1,32 +1,37 @@
+import { ApolloLink, gql, Observable } from "@apollo/client";
 import { testApolloLink } from "@apollo-link-debug/core";
 
-import { createTimerLink } from "./timer-link";
+import { TimerLink } from "./timer-link";
 
-const OPERATION_NAME = "createTimerLink";
-
-describe("createTimerLink", () => {
+describe("TimerLink", () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it("should report timings", async () => {
-    const onResponseMock = jest.fn();
-    const timerLink = createTimerLink({
+    const onResponseMock = vi.fn();
+    const timerLink = new TimerLink({
       onResponse: onResponseMock,
     });
 
     await testApolloLink(
       timerLink,
       () => {
-        jest.setSystemTime(new Date("1970-01-01T00:00:00Z"));
-        return { operationName: OPERATION_NAME };
+        vi.setSystemTime(new Date("1970-01-01T00:00:00Z"));
+        return {
+          query: gql`
+            query TimerLink {
+              noop
+            }
+          `,
+        };
       },
       () => {
-        jest.setSystemTime(new Date("1970-01-01T00:00:03Z"));
+        vi.setSystemTime(new Date("1970-01-01T00:00:03Z"));
         return { data: {} };
       },
     );
@@ -37,5 +42,48 @@ describe("createTimerLink", () => {
         difference: 3000,
       }),
     );
+  });
+
+  it("should use the default response handler", async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const timerLink = new TimerLink();
+
+    await testApolloLink(
+      timerLink,
+      () => ({
+        query: gql`
+          query TimerLink {
+            noop
+          }
+        `,
+      }),
+      () => ({ data: {} }),
+    );
+
+    expect(logSpy).toHaveBeenCalledTimes(1);
+    logSpy.mockRestore();
+  });
+
+  it("should complete without invoking the response callback", async () => {
+    const onResponseMock = vi.fn();
+    const timerLink = new TimerLink({ onResponse: onResponseMock });
+    const completeLink = new ApolloLink(() => {
+      return new Observable((observer) => {
+        observer.complete();
+        return () => undefined;
+      });
+    });
+
+    await expect(
+      testApolloLink(ApolloLink.from([timerLink, completeLink]), () => ({
+        query: gql`
+          query TimerLink {
+            noop
+          }
+        `,
+      })),
+    ).resolves.toBeDefined();
+
+    expect(onResponseMock).not.toHaveBeenCalled();
   });
 });

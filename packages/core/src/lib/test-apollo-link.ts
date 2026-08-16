@@ -1,12 +1,11 @@
 import {
+  ApolloClient,
   ApolloLink,
   execute,
-  FetchResult,
   gql,
-  GraphQLRequest,
-  Observable,
-  Operation,
+  InMemoryCache,
 } from "@apollo/client";
+import { of } from "rxjs";
 
 const MockQuery = gql`
   query {
@@ -15,41 +14,47 @@ const MockQuery = gql`
 `;
 
 interface LinkResult<T> {
-  operation: Operation;
-  result: FetchResult<T>;
+  operation: ApolloLink.Operation;
+  result: ApolloLink.Result<T>;
 }
 
-const DEFAULT_REQUEST: GraphQLRequest = { query: MockQuery };
+const DEFAULT_REQUEST: ApolloLink.Request = { query: MockQuery };
 
 export async function testApolloLink<
   T = unknown,
   U extends Record<string, unknown> = Record<string, unknown>,
 >(
   linkToTest: ApolloLink,
-  mockRequest: () => Partial<GraphQLRequest> = () => DEFAULT_REQUEST,
-  mockResponse: () => FetchResult<U> = () => ({ data: null }),
+  mockRequest: () => Partial<ApolloLink.Request> = () => DEFAULT_REQUEST,
+  mockResponse: () => ApolloLink.Result<U> = () => ({ data: null }),
 ) {
   const linkResult = {} as LinkResult<T>;
 
   return new Promise<LinkResult<T>>((resolve, reject) => {
     const terminatingLink = new ApolloLink((operation) => {
       linkResult.operation = operation;
-      return Observable.of(mockResponse());
+      return of(mockResponse());
     });
 
-    execute(ApolloLink.from([linkToTest, terminatingLink]), {
-      ...DEFAULT_REQUEST,
-      ...mockRequest(),
-    }).subscribe(
-      (result) => {
-        linkResult.result = result as FetchResult<T>;
+    const client = new ApolloClient({
+      cache: new InMemoryCache(),
+      link: ApolloLink.from([]),
+    });
+
+    execute(
+      ApolloLink.from([linkToTest, terminatingLink]),
+      {
+        ...DEFAULT_REQUEST,
+        ...mockRequest(),
       },
-      (error) => {
-        reject(error);
-      },
-      () => {
+      { client },
+    ).subscribe({
+      complete: () => {
         resolve(linkResult);
       },
-    );
+      error: (error) => {
+        reject(error);
+      },
+    });
   });
 }

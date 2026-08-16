@@ -2,4 +2,5 @@
 npx sort-package-json
 npx prettier --check .
 npm run lint
+npm run typecheck
 npm test

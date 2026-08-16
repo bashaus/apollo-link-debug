@@ -1,7 +1,7 @@
-import { Operation } from "@apollo/client";
+import { ApolloLink } from "@apollo/client";
 
 export type OnNetworkErrorCallback = (options: {
-  operation: Operation;
+  operation: ApolloLink.Operation;
   error: Error;
 }) => void;
 
