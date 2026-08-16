@@ -1,6 +1,6 @@
 {
   "name": "apollo-link-debug",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "homepage": "https://github.com/bashaus/apollo-link-debug",
   "repository": {
@@ -18,10 +18,6 @@
     "prepare": "husky",
     "test": "vitest run",
     "typecheck": "turbo run typecheck"
-  },
-  "dependencies": {
-    "cookie": "^1.0.2",
-    "cross-fetch": "^4.1.0"
   },
   "devDependencies": {
     "@apollo/client": "^4.2.12",
