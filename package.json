@@ -27,7 +27,7 @@
     "@apollo/client": "^4.2.12",
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
-    "@eslint/js": "^9.36.0",
+    "@eslint/js": "^10.0.1",
     "@types/node": "^24.6.1",
     "@vitest/coverage-v8": "^4.1.10",
     "eslint": "^9.36.0",
