@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@apollo/client": "^4.2.12"
+    "@apollo/client": "^4.3.1"
   },
   "peerDependencies": {
     "@apollo/client": "^4"
