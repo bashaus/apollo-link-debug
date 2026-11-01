@@ -24,7 +24,7 @@
     "cross-fetch": "^4.1.0"
   },
   "devDependencies": {
-    "@apollo/client": "^4.2.12",
+    "@apollo/client": "^4.3.5",
     "@types/cookie": "^1.0.0"
   },
   "peerDependencies": {
