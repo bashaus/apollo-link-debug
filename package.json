@@ -28,7 +28,7 @@
     "eslint": "^10.8.1",
     "graphql": "^17.0.2",
     "husky": "^9.1.7",
-    "prettier": "3.9.6",
+    "prettier": "3.9.10",
     "react": "^19.1.0",
     "turbo": "^2.10.10",
     "typescript": "^6.0.3",
